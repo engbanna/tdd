@@ -6,20 +6,21 @@ use PHPUnit\Framework\TestCase;
 class VendorTest extends TestCase
 {
 
-
+/** https://github.com/engbanna/multivendors  */
+    
     /** @test */
     public function vendor_can_only_own_single_store()
     {
         $vendor = new Vendor();
 
         /** Set store1 to the vendor must be success  */
-        $this->assertEquals(true, $vendor->setStore(1));
+        $this->assertEquals(true, $vendor->setStoreByID(1));
 
         /** if the vendor have store must not able to accept another store  */
-        $this->assertEquals(false, $vendor->setStore(2));
+        $this->assertEquals(false, $vendor->setStoreByID(2));
 
         /** When get the vendor store must return the first store, that mean the vendor has only one store  */
-        $this->assertEquals(1, $vendor->getStore());
+        $this->assertEquals(1, $vendor->getStoreID());
 
     }
 
@@ -94,6 +95,13 @@ class VendorTest extends TestCase
         $this->assertEquals(true, $store1->addProduct($product1));
 
         $this->assertEquals(2, count($store1->getProducts()));
+
+        /** test if a vendor or manager did not related to the store, they must not be able to add product to it */
+        $store2 = new Store();
+        $store2->name = 'Store2';
+        $this->assertEquals(false, $store2->addProduct($product1));
+
+
     }
 
 
